@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>System Status · Siddhanth Mani</title>
+<meta name="description" content="Live uptime, response times and certificate health for Siddhanth Mani's sites.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%2330d158'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="https://siddhanth.ryzn.pro/">Siddhanth Mani</a>
+    <span class="muted">System status</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" aria-live="polite">
+    <div class="dot" id="overallDot"></div>
+    <div>
+      <h1 id="overallText">Loading status…</h1>
+      <p class="muted" id="updated">&nbsp;</p>
+    </div>
+  </section>
+
+  <div id="error" class="notice" hidden>
+    <span>Couldn't load the latest status.</span>
+    <button type="button" id="retry">Try again</button>
+  </div>
+
+  <section id="sites" class="sites" aria-label="Monitored sites"></section>
+
+  <section class="incidents">
+    <h2>Recent incidents</h2>
+    <ul id="incidents"></ul>
+    <p class="muted empty" id="noIncidents" hidden>No incidents recorded. Everything has been running smoothly.</p>
+  </section>
+</main>
+
+<footer class="wrap muted">
+  Checked every <span id="interval">10</span> minutes from GitHub Actions ·
+  <a href="https://github.com/Siddhanth-Mani/uptime-monitor">Source on GitHub</a>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "interval_minutes": 10,
+  "cert_warning_days": 14,
+  "sites": [
+    {
+      "name": "Portfolio",
+      "url": "https://siddhanth.ryzn.pro/",
+      "expect": "Siddhanth Kartik Mani"
+    },
+    {
+      "name": "Nexus AI",
+      "url": "https://nexusfj.indevs.in/health",
+      "expect": "\"status\":\"ok\""
+    },
+    {
+      "name": "Portfolio origin (GitHub Pages)",
+      "url": "https://siddhanth-mani.github.io/",
+      "expect": "Siddhanth Kartik Mani"
+    }
+  ]
+}

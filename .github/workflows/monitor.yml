@@ -1,0 +1,65 @@
+name: Monitor
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # GitHub may start scheduled runs a few minutes late
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["docs/**", "monitor/**", "sites.json", ".github/workflows/monitor.yml"]
+
+permissions:
+  contents: write   # push check history to the `data` branch
+  pages: write
+  id-token: write
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Restore history from the data branch
+        run: |
+          mkdir -p state
+          if git ls-remote --exit-code --heads origin data >/dev/null; then
+            git fetch --depth 1 origin data
+            git archive FETCH_HEAD | tar -x -C state
+          fi
+
+      - name: Check sites
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m monitor.run --config sites.json --state state --out docs/data
+
+      - name: Save history to the data branch
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          cd state
+          git init -q -b data
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -qm "Status data $(date -u +%FT%TZ)"
+          # One force-pushed commit keeps the repo small; history is inside the JSON files.
+          git push -qf "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" data
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: docs
+
+      - id: deploy
+        uses: actions/deploy-pages@v5
