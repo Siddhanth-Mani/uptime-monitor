@@ -4,6 +4,8 @@ A small, dependency-free uptime monitor that checks my sites every 10 minutes fr
 
 **Status page:** https://siddhanth-mani.github.io/uptime-monitor/
 
+![Status page showing each site's uptime, response time and certificate expiry](docs/status-page.jpg)
+
 ## What it does
 
 - Checks each site in [`sites.json`](sites.json) for HTTP status, response time and an expected piece of text (so a blank or error page still counts as down).

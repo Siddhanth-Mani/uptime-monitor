@@ -16,6 +16,11 @@
       "name": "Portfolio origin (GitHub Pages)",
       "url": "https://siddhanth-mani.github.io/",
       "expect": "Siddhanth Kartik Mani"
+    },
+    {
+      "name": "IT Helpdesk",
+      "url": "https://siddhanth.ryzn.pro/helpdesk/api/v1/health",
+      "expect": "\"status\":\"ok\""
     }
   ]
 }
